@@ -21,7 +21,7 @@ class RogeRebertSpider(scrapy.Spider):
 
     def parse_review(self, response):
         name = response.url.split('/')[-1]
-        filename = '/Users/lucaverhees/IR/ir_scraper/rogerebertFiles/{}.html'.format(name)
+        filename = '/Users/lucaverhees/IR/web_scrapers/rogerebertFiles/{}.html'.format(name)
         with open(filename, 'wb') as f:
             f.write(response.body)
             f.close()

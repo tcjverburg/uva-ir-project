@@ -22,7 +22,7 @@ class HollywoodlifeSpider(scrapy.Spider):
 
     def parse_newsarticle(self, response):
         name = response.url.split('/')[-2]
-        filename = '/Users/lucaverhees/IR/ir_scraper/hollywoodlifeFiles/{}.html'.format(name)
+        filename = '/Users/lucaverhees/IR/web_scrapers/hollywoodlifeFiles/{}.html'.format(name)
         with open(filename, 'wb') as f:
             f.write(response.body)
             f.close()

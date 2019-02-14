@@ -21,7 +21,7 @@ class MoviewebSpider(scrapy.Spider):
 
     def parse_newsarticle(self, response):
         name = response.url.split('/')[-2]
-        filename = '/Users/lucaverhees/IR/ir_scraper/cinemablendFiles/{}.html'.format(name)
+        filename = '/Users/lucaverhees/IR/web_scrapers/cinemablendFiles/{}.html'.format(name)
         with open(filename, 'wb') as f:
             f.write(response.body)
             f.close()
