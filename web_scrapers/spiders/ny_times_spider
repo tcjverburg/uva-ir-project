@@ -1,0 +1,31 @@
+import scrapy
+import json
+from urlparse import urljoin
+
+
+class NyTimes(scrapy.Spider):
+    name = "nytimes_scroll"
+    allowed_domains = ["www.nytimes.com"]
+
+    start_urls = ["https://www.nytimes.com/topic/subject/actors-and-actresses/"]
+
+    def start_requests(self):
+        for page_start in range(1, 423):
+            yield scrapy.Request(
+                "https://www.nytimes.com/svc/collections/v1/publish/topics.nytimes.com/topic/subject/actors-and-actresses?q=&sort=newest&page={}&dom=www.nytimes.com&dedupe_hl=y".format(
+                    page_start))
+
+    def parse(self, response):
+        data = json.loads(response.text)
+        article_urls = [article['url'] for article in data['members']['items']]
+
+        for url in article_urls:
+            yield scrapy.Request(response.urljoin(url), callback=self.parse_review)
+
+    def parse_review(self, response):
+        name = response.url.split('/')[-1]
+        filename = 'C:/Users/tom_v/PycharmProjects/Information_retrieval/nytimes_files/{}.html'.format(name)
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+            f.close()
+        self.log('Saved file {}'.format(filename))
